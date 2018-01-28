@@ -1,0 +1,24 @@
+.react-datepicker {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2rem;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #aeaeae;
+    border-radius: 0.3rem;
+    display: inline-block;
+    position: relative;
+}
+.react-datepicker__current-month, .react-datepicker-time__header {
+    margin-top: 0;
+    color: #000;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+    color: #000;
+    display: inline-block;
+    width: 2.2rem;
+    line-height: 2.5rem;
+    text-align: center;
+    margin: 0.166rem;
+}
