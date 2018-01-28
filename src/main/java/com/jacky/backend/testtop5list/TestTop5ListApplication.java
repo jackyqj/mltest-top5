@@ -53,14 +53,24 @@ public class TestTop5ListApplication {
         this.accountRepository = accountRepository;
     }
 
+    /*
+     * init user, only when there is no default user found in DB
+     * TODO: for demo only
+     */
     @Bean
     CommandLineRunner init(AccountRepository accountRepository) {
-        return (env) -> Arrays.stream("jacky,test,guest".split(","))
-                .map(name -> new Account(name, "p")).forEach(
-                        act -> {
-                            accountRepository.save(act);
-                        }
-                );
+        if (accountRepository.findByUsername("jacky") != null) {
+            return (env) -> LOGGER.fine("User has already been initialized.");
+        }
+        return (env) -> {
+            LOGGER.fine("Init default users...");
+            Arrays.stream("jacky,test,guest".split(","))
+                    .map(name -> new Account(name, "p")).forEach(
+                    act -> {
+                        accountRepository.save(act);
+                    }
+            );
+        };
     }
     /**
      * Scheduled task for importing the visit histories from csv file into DB
