@@ -1,17 +1,23 @@
 package com.jacky.backend.testtop5list;
 
+import com.jacky.backend.testtop5list.dao.AccountRepository;
+import com.jacky.backend.testtop5list.dao.MyBatisMapper;
 import com.jacky.backend.testtop5list.dao.VisitHistoryRepository;
+import com.jacky.backend.testtop5list.entity.Account;
 import com.jacky.backend.testtop5list.entity.VisitHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,6 +29,7 @@ import java.util.logging.Logger;
 public class TestTop5ListApplication {
     private final static Logger LOGGER = Logger.getLogger(TestTop5ListApplication.class.getName());
     private VisitHistoryRepository visitHistoryRepository;
+    private AccountRepository accountRepository;
 
     @Value("${mltest.csv.folder}")
     private String csvInputPath;
@@ -41,10 +48,20 @@ public class TestTop5ListApplication {
 
 
     @Autowired
-    TestTop5ListApplication(VisitHistoryRepository visitHistoryRepository) {
+    TestTop5ListApplication(VisitHistoryRepository visitHistoryRepository, AccountRepository accountRepository) {
         this.visitHistoryRepository = visitHistoryRepository;
+        this.accountRepository = accountRepository;
     }
 
+    @Bean
+    CommandLineRunner init(AccountRepository accountRepository) {
+        return (env) -> Arrays.stream("jacky,test,guest".split(","))
+                .map(name -> new Account(name, "p")).forEach(
+                        act -> {
+                            accountRepository.save(act);
+                        }
+                );
+    }
     /**
      * Scheduled task for importing the visit histories from csv file into DB
      */
