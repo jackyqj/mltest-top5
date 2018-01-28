@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -59,7 +60,8 @@ public class TestTop5ListApplication {
      */
     @Bean
     CommandLineRunner init(AccountRepository accountRepository) {
-        if (accountRepository.findByUsername("jacky") != null) {
+        Optional<Account> actOpt = accountRepository.findByUsername("jacky");
+        if (actOpt.isPresent()) {
             return (env) -> LOGGER.fine("User has already been initialized.");
         }
         return (env) -> {
