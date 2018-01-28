@@ -34,8 +34,8 @@ public class MltestModel {
      * @param checkedDate The date user checked for the visit report
      * @return a list of VisitFilter object
      */
-    public List<String> getWebsiteFilters(final Date checkedDate) {
-        List<String> filterList = new ArrayList<>();
+    public List<VisitFilter> getWebsiteFilters(final Date checkedDate) {
+        List<VisitFilter> filterList = new ArrayList<>();
         try {
             JSONParser parser = new JSONParser();
 
@@ -68,7 +68,7 @@ public class MltestModel {
                 //Only the filter with the valid date range need to be added to the filter list
                 if (isValidFilter(vFilter, checkedDate)) {
                     LOGGER.fine("Filter was added: " + vFilter);
-                    filterList.add(vFilter.getWebsite());
+                    filterList.add(vFilter);
                 } else {
                     LOGGER.fine("Filter was ignored: " + vFilter);
                 }

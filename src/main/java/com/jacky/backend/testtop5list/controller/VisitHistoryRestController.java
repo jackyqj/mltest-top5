@@ -3,15 +3,14 @@ package com.jacky.backend.testtop5list.controller;
 import com.jacky.backend.testtop5list.OpHelper;
 import com.jacky.backend.testtop5list.dao.AccountRepository;
 import com.jacky.backend.testtop5list.dao.MyBatisMapper;
+import com.jacky.backend.testtop5list.entity.ResponseWrapper;
+import com.jacky.backend.testtop5list.entity.VisitFilter;
 import com.jacky.backend.testtop5list.entity.VisitHistory;
 import com.jacky.backend.testtop5list.model.MltestModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,25 +45,27 @@ public class VisitHistoryRestController {
      * @return List of VisitHistory object, client will retrieved it in json format
      */
     @RequestMapping(method = RequestMethod.GET, value = "/{recordDate}")
-    Collection<VisitHistory> listTopHistories(@PathVariable String recordDate) {
+    ResponseWrapper listTopHistories(@PathVariable String recordDate) {
         LOGGER.fine("List By Date: " + recordDate);
         MltestModel filterModel = new MltestModel(filterUrl);
         Date checkedDate = OpHelper.getDate(recordDate);
-        List<String> webList = filterModel.getWebsiteFilters(checkedDate);
+        List<VisitFilter> webList = filterModel.getWebsiteFilters(checkedDate);
+        List<VisitHistory> historyList = null;
 
         // Get the exact matched website from DB by the filter website list
         List<String> matchedWebsiteList = new ArrayList<>();
-        for (String website : webList) {
-            matchedWebsiteList.addAll(myBatisMapper.findRelatedWetsites("%" + website + "%"));
+        for (VisitFilter website : webList) {
+            matchedWebsiteList.addAll(myBatisMapper.findRelatedWetsites("%" + website.getWebsite() + "%"));
         }
 
         if (CollectionUtils.isEmpty(matchedWebsiteList)) {
             LOGGER.fine("Get without any filter.");
-            return this.myBatisMapper.findByRecordDate(checkedDate, 5);
+            historyList = this.myBatisMapper.findByRecordDate(checkedDate, 5);
         } else {
             LOGGER.fine("Get with filter: " + matchedWebsiteList);
-            return this.myBatisMapper.findByRecordDateWithFilter(checkedDate, matchedWebsiteList, 5);
+            historyList = this.myBatisMapper.findByRecordDateWithFilter(checkedDate, matchedWebsiteList, 5);
         }
+        return new ResponseWrapper(webList, historyList);
     }
 
 }

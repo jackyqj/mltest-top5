@@ -43,6 +43,10 @@ public class VisitHistory {
 
     }
 
+    public String getWebsite() {
+        return website;
+    }
+
     public Date getRecordDate() {
         return recordDate;
     }

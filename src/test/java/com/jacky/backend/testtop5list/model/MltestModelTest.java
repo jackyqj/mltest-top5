@@ -28,9 +28,9 @@ public class MltestModelTest {
         assertEquals(0,
                 model.getWebsiteFilters(OpHelper.getDate("2016-06-20")).size());
         assertEquals("facebook.com",
-                model.getWebsiteFilters(OpHelper.getDate("2016-12-01")).get(0));
+                model.getWebsiteFilters(OpHelper.getDate("2016-12-01")).get(0).getWebsite());
         assertEquals("facebook.com",
-                model.getWebsiteFilters(OpHelper.getDate("2017-03-13")).get(0));
+                model.getWebsiteFilters(OpHelper.getDate("2017-03-13")).get(0).getWebsite());
         assertEquals(0,
                 model.getWebsiteFilters(OpHelper.getDate("2016-11-30")).size());
 
@@ -41,11 +41,11 @@ public class MltestModelTest {
         assertEquals(0,
                 model.getWebsiteFilters(OpHelper.getDate("2016-03-11")).size());
         assertEquals("google.com",
-                model.getWebsiteFilters(OpHelper.getDate("2016-03-12")).get(0));
+                model.getWebsiteFilters(OpHelper.getDate("2016-03-12")).get(0).getWebsite());
         assertEquals("google.com",
-                model.getWebsiteFilters(OpHelper.getDate("2016-03-13")).get(0));
+                model.getWebsiteFilters(OpHelper.getDate("2016-03-13")).get(0).getWebsite());
         assertEquals("google.com",
-                model.getWebsiteFilters(OpHelper.getDate("2016-03-14")).get(0));
+                model.getWebsiteFilters(OpHelper.getDate("2016-03-14")).get(0).getWebsite());
         assertEquals(0,
                 model.getWebsiteFilters(OpHelper.getDate("2016-03-15")).size());
 

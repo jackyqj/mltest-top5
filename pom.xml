@@ -6,7 +6,7 @@
   <groupId>com.jacky.backend</groupId>
   <artifactId>test-top5-list</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
 
   <name>test-top5-list</name>
   <description>Demo project for Spring Boot</description>
