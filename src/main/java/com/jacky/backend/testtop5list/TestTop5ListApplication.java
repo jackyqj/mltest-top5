@@ -60,7 +60,7 @@ public class TestTop5ListApplication {
      */
     @Bean
     CommandLineRunner init(AccountRepository accountRepository) {
-        Optional<Account> actOpt = accountRepository.findByUsername("jacky");
+        Optional<Account> actOpt = accountRepository.findByUsername("user");
         if (actOpt.isPresent()) {
             return (env) -> LOGGER.fine("User has already been initialized.");
         }
