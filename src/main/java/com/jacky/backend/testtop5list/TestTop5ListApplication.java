@@ -66,7 +66,7 @@ public class TestTop5ListApplication {
         }
         return (env) -> {
             LOGGER.fine("Init default users...");
-            Arrays.stream("jacky,test,guest".split(","))
+            Arrays.stream("user,test,guest".split(","))
                     .map(name -> new Account(name, "p")).forEach(
                     act -> {
                         accountRepository.save(act);
